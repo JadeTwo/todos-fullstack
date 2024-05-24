@@ -2,7 +2,8 @@ import Todo from '../models/TodoModel.js'
 
 export const getTodos = async (req, res) => {
     try {
-        const todos = await Todo.find()
+        //get all toods that have an id that matches the autenticatedUser 
+        const todos = await Todo.find({userId:req.params.id})
         res.status(200).json(todos)
     } catch(err) {
         console.log(err.message)

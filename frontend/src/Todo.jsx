@@ -9,7 +9,7 @@ const BASE_URL = import.meta.env.DEV ?
 'https://todos-backend-ybjq.onrender.com/api/todos'
 
 
-const Todo = () => {
+const Todo = ({userAuth}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [todos, setTodos] = useState([])
   
@@ -17,7 +17,7 @@ const Todo = () => {
       async function getTodos() {
         try {
           setIsLoading(true)
-          const response = await fetch(BASE_URL)
+          const response = await fetch(BASE_URL+"/"+userAuth.uid)
           const data = await response.json()
           console.log(data)
           setTodos(data)  
@@ -38,8 +38,10 @@ const Todo = () => {
       const body = {
         text: textRef.current.value,
         completed: completeRef.current.checked,
-        user: 'bob'
+        userId: userAuth.uid//useId of the user 
       }
+      console.log(body)
+      
       try {
         setIsLoading(true)
         const response = await fetch(BASE_URL, {

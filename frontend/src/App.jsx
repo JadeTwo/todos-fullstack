@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log("auth status changed",user)
+      console.log("auth status changed",user.uid)
       setUserAuth(user)
     })
   }, [])
@@ -22,7 +22,7 @@ function App() {
 
     <NavBar userAuth={userAuth} setUserAuth={setUserAuth}/>
     <Routes>
-      <Route path="/" element={<Todo/>}/>
+      <Route path="/" element={<Todo  userAuth={userAuth}/>} />
       <Route path="/signup"element = {<SignUp setUserAuth={setUserAuth}/> }/>
       <Route path="/login"element = {<LogIn setUserAuth={setUserAuth}/> }/>
     </Routes>
