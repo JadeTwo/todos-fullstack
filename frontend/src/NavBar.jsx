@@ -10,22 +10,18 @@ const NavBar = ({userAuth,setUserAuth}) => {
     }
     return (
         <div>
-            <ul>
-                {userAuth ? <div>
-                hello {userAuth?.email}
-                    <li>
+            <ul style={{display:"flex",justifyContent:"space-between",width:"400px"}}>
+                
+                {userAuth ? <>
+                    
                     <Link to="/">Home</Link>
-                </li>
-
                <button onClick={logout}>log out</button>
-                </div>:<div>
-                <li>
+                </>:<>
                     <Link to="/signup">Signup</Link>
-                </li>
-                <li>
+                
                     <Link to="/login">LogIN</Link>
-                </li>
-                    </div>}
+          
+                    </>}
              
              
             </ul>

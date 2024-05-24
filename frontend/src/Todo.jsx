@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-
+import axios from "axios"
 import './App.css'
-
+import bearsStore from "./store/bearStore"
 console.log(import.meta.env)
 
 const BASE_URL = import.meta.env.DEV ? 
@@ -10,6 +10,8 @@ const BASE_URL = import.meta.env.DEV ?
 
 
 const Todo = ({userAuth}) => {
+   let bear= bearsStore((state)=>state)
+    console.log("🚀 ~ Todo ~ bear:", bear)
     const [isLoading, setIsLoading] = useState(false)
     const [todos, setTodos] = useState([])
   
@@ -17,18 +19,20 @@ const Todo = ({userAuth}) => {
       async function getTodos() {
         try {
           setIsLoading(true)
-          const response = await fetch(BASE_URL+"/"+userAuth.uid)
-          const data = await response.json()
-          console.log(data)
-          setTodos(data)  
+          const data = await axios.get(BASE_URL+"/")
+          console.log(data.data)
+          setTodos(data.data)  
         } catch(err) {
           console.log(err)
         } finally {
           setIsLoading(false)
         }
       }
-      getTodos()
-    }, [])
+      if(userAuth){
+
+          getTodos()
+        }
+    }, [userAuth])
   
     const textRef = useRef()
     const completeRef = useRef()
@@ -44,15 +48,10 @@ const Todo = ({userAuth}) => {
       
       try {
         setIsLoading(true)
-        const response = await fetch(BASE_URL, {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        const newTodo = await response.json()
-        setTodos([...todos, newTodo])
+        
+        const newTodo = await axios.post(BASE_URL,body)
+        console.log("🚀 ~ handleSubmit ~ newTodo:", newTodo)
+        setTodos([...todos,newTodo.data])
         textRef.current.value = ''
         completeRef.current.checked = false
       } catch(err) {
@@ -65,9 +64,8 @@ const Todo = ({userAuth}) => {
     async function handleDelete(id) {
       try {
         setIsLoading(true)
-        await fetch(`${BASE_URL}/${id}`, {
-          method: 'DELETE'
-        })
+   
+        const data = await axios.delete(`${BASE_URL}/${id}`)
         setTodos(todos.filter(todo => todo._id !== id))
       } catch (err) {
         console.log(err)
@@ -77,6 +75,9 @@ const Todo = ({userAuth}) => {
     }
     return (
         <div>
+            {bear.bears}
+        <button onClick={()=>bear.increasePopulation()}>increase</button>
+
                 <h1>Todos</h1>
       <form onSubmit={handleSubmit}>
         <label>

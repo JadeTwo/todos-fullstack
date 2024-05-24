@@ -5,14 +5,16 @@ import Todo from "./Todo"
 import {BrowserRouter as Router,Routes, Route,Navigate} from 'react-router-dom';
 import { useState,useEffect } from "react";
 import { auth } from "./firebase/config";
+import axios from "axios"
 function App() {
 
   const [userAuth,setUserAuth] = useState(null)
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log("auth status changed",user.uid)
+      console.log("auth status changed",user)
       setUserAuth(user)
+      axios.defaults.headers.common["Authorization"]= "Bearer "+user.accessToken
     })
   }, [])
   return (
