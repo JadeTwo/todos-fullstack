@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 
-function Signup({setUser}) {
+function Signup({setUserAuth}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,7 +26,7 @@ function Signup({setUser}) {
       // it will create documnet in the users collection
       //set document with the uid provided by firebase
       //add email as property to the document
-      setUser(res.user)
+      setUserAuth(res.user)
       setSuccess("user created successfully")
 
       
