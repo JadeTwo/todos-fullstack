@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 
 import './App.css'
 
-console.log(import.meta.env)
-
 const BASE_URL = import.meta.env.DEV ? 
 'http://localhost:8080/api/todos' : 
 'https://todos-backend-ybjq.onrender.com/api/todos'
