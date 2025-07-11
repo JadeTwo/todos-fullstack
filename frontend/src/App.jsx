@@ -1,15 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
+
+  const [todos, setTodos] = useState([])
 
   useEffect(() => {
 
     async function getData() {
       try {
-        const response = await fetch('http://localhost:8080')
+        const response = await fetch('http://localhost:8080/todos')
         const data = await response.json()
         console.log(data) 
+        setTodos(todos)
       } catch (e) {
         console.log(e)
       }
@@ -18,6 +21,8 @@ function App() {
     getData()
 
   }, [])
+
+  console.log(todos)
  
   return (
     <>
