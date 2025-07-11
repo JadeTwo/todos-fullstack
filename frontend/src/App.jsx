@@ -44,11 +44,19 @@ function App() {
 
     setTodos([...todos, newTodo])
 
+    inputRef.current.value = ''
   }
 
   async function handleDelete(id) {
     await fetch(`${BASE_URL}/todos/${id}`, {
       method: 'DELETE'
+    })
+    getData()
+  }
+
+  async function handleComplete(id) {
+    await fetch(`${BASE_URL}/todos/${id}`, {
+      method: 'PUT'
     })
     getData()
   }
@@ -63,7 +71,11 @@ function App() {
       <ul>
         {todos.map((todo) =>
           <li key={todo._id}>
-            <input type="checkbox" />
+            <input 
+              type="checkbox" 
+              checked={todo.completed}
+              onChange={() => handleComplete(todo._id)}
+            />
             {todo.text}
             <button onClick={() => handleDelete(todo._id)}>X</button>
           </li>
